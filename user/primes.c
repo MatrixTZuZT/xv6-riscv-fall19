@@ -12,12 +12,12 @@ void primes(int from) {
     read(from, &num, sizeof(int));
     printf("prime %d\n", num);
     pivot = num;
-
+    if(pivot == 35) return;
     if((pid = fork()) == 0) {
         close(right_pipe[1]);
         primes(right_pipe[0]);
-    } else {
         close(right_pipe[0]);
+    } else {
         while(read(from, &num, sizeof(int)) != 0) {
             // printf("test %d\n", num);
             if(num % pivot == 0) continue;
@@ -27,6 +27,7 @@ void primes(int from) {
         close(right_pipe[1]);
         wait(0);
     }
+    close(from);
     return;
 }
 
